@@ -44,6 +44,53 @@ body {
   box-shadow: 0 2px 14px rgba(10, 60, 44, .25);
 }
 
+/* ---------- Painel de prazo (meta de envio) ------------------------------ */
+
+.prazo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.prazo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .1);
+  min-width: 0;
+}
+
+.prazo-rotulo {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  opacity: .8;
+}
+
+.prazo-valor {
+  font-size: 1.2rem;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.prazo-detalhe { font-size: .72rem; opacity: .85; }
+
+/* o número que importa no dia a dia */
+.prazo-destaque {
+  background: var(--fundo-enviado);
+  border-color: var(--fundo-enviado);
+  color: var(--texto-enviado);
+}
+
+.prazo-destaque .prazo-rotulo { opacity: 1; font-weight: 600; }
+
+.prazo.encerrado .prazo-destaque { background: #ffd7cf; border-color: #ffd7cf; color: var(--perigo); }
+.prazo.concluido .prazo-destaque { background: #b9f5a6; border-color: #b9f5a6; color: var(--esmeralda-escuro); }
+
 .cabecalho-topo {
   display: flex;
   flex-wrap: wrap;
@@ -322,6 +369,9 @@ main { padding: 20px max(16px, 3vw) 0; }
 .rodape a { color: var(--esmeralda-escuro); }
 
 @media (max-width: 620px) {
+  /* no celular o cabeçalho ficou alto demais para ficar grudado no topo */
+  .cabecalho { position: static; }
+  .prazo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .acoes { margin-left: 0; width: 100%; }
   .grade { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
   .cartao img { width: 64px; height: 64px; }

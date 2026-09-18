@@ -18,6 +18,10 @@
   var CAMINHO_JSON = 'dados/capturas.json';
   var NOME_ARQUIVO = 'capturas.json';
 
+  // Prazo para enviar todas as criaturas (mês começa em 0: 1 = fevereiro).
+  var DATA_LIMITE = new Date(2027, 1, 20);
+  var UM_DIA = 24 * 60 * 60 * 1000;
+
   var TIPOS_PT = {
     Normal: 'Normal', Fire: 'Fogo', Water: 'Água', Grass: 'Planta',
     Electric: 'Elétrico', Ice: 'Gelo', Fighting: 'Lutador', Poison: 'Veneno',
@@ -39,6 +43,12 @@
     contador: document.getElementById('contador'),
     porcentagem: document.getElementById('porcentagem'),
     contadorEnviados: document.getElementById('contador-enviados'),
+    prazo: document.querySelector('.prazo'),
+    prazoData: document.getElementById('prazo-data'),
+    prazoDias: document.getElementById('prazo-dias'),
+    prazoEnviados: document.getElementById('prazo-enviados'),
+    prazoPorDia: document.getElementById('prazo-por-dia'),
+    prazoDetalhe: document.getElementById('prazo-detalhe'),
     barra: document.getElementById('barra'),
     status: document.getElementById('status'),
     busca: document.getElementById('busca'),
@@ -400,6 +410,64 @@
     el.contadorEnviados.textContent = enviados.size
       ? enviados.size + (enviados.size === 1 ? ' enviado' : ' enviados')
       : '';
+    atualizarPrazo();
+  }
+
+  /* ---------- Meta de envio até a data limite ------------------------------ */
+
+  // Dias de calendário entre hoje e a data limite (0 = hoje é o último dia).
+  function diasAteLimite() {
+    var agora = new Date();
+    var hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+    return Math.round((DATA_LIMITE - hoje) / UM_DIA);
+  }
+
+  function atualizarPrazo() {
+    var dias = diasAteLimite();
+    var restantes = TOTAL - enviados.size;
+
+    el.prazoData.textContent = DATA_LIMITE.toLocaleDateString('pt-BR');
+    el.prazoEnviados.textContent = enviados.size + ' / ' + restantes;
+    el.prazo.classList.remove('encerrado', 'concluido');
+
+    if (restantes === 0) {
+      el.prazo.classList.add('concluido');
+      el.prazoDias.textContent = dias >= 0 ? dias + (dias === 1 ? ' dia' : ' dias') : 'Encerrado';
+      el.prazoPorDia.textContent = 'Meta batida!';
+      el.prazoDetalhe.textContent = 'todas as ' + TOTAL + ' enviadas';
+      return;
+    }
+
+    if (dias < 0) {
+      el.prazo.classList.add('encerrado');
+      el.prazoDias.textContent = 'Encerrado';
+      el.prazoPorDia.textContent = '—';
+      el.prazoDetalhe.textContent = 'prazo vencido com ' + restantes + ' por enviar';
+      return;
+    }
+
+    // No próprio dia limite ainda sobra hoje: divide por 1 em vez de 0.
+    var diasParaDividir = Math.max(dias, 1);
+    var mediaExata = restantes / diasParaDividir;
+
+    el.prazoDias.textContent = dias === 0 ? 'Último dia' : dias + (dias === 1 ? ' dia' : ' dias');
+    el.prazoPorDia.textContent = Math.ceil(mediaExata);
+    el.prazoDetalhe.textContent = 'média exata: ' + mediaExata.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }) + ' por dia';
+  }
+
+  // Se a página ficar aberta de um dia para o outro, a contagem vira sozinha.
+  function vigiarVirada() {
+    var ultimoDia = new Date().toDateString();
+    setInterval(function () {
+      var hoje = new Date().toDateString();
+      if (hoje !== ultimoDia) {
+        ultimoDia = hoje;
+        atualizarPrazo();
+      }
+    }, 60 * 1000);
   }
 
   function aplicarFiltros() {
@@ -517,6 +585,8 @@
   function iniciar() {
     montarGrade();
     ligarEventos();
+    atualizarPrazo();
+    vigiarVirada();
 
     // Ordem de prioridade: arquivo conectado > localStorage > dados/capturas.json
     reconectarArquivo().then(function (veioDoArquivo) {
