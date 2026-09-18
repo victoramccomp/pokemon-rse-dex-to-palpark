@@ -18,14 +18,24 @@
         <span class="prazo-rotulo">Dias restantes</span>
         <strong class="prazo-valor" id="prazo-dias">—</strong>
       </div>
+      <!-- Um par de quadrados por meta; o total vem do data-meta. -->
       <div class="prazo-item">
-        <span class="prazo-rotulo">Enviados / Restantes</span>
-        <strong class="prazo-valor" id="prazo-enviados">—</strong>
+        <span class="prazo-rotulo">Enviados / Restantes <span class="prazo-escopo">de 202</span></span>
+        <strong class="prazo-valor" data-meta="202" data-campo="enviados">—</strong>
       </div>
-      <div class="prazo-item prazo-destaque">
-        <span class="prazo-rotulo">Enviar por dia</span>
-        <strong class="prazo-valor" id="prazo-por-dia">—</strong>
-        <small class="prazo-detalhe" id="prazo-detalhe"></small>
+      <div class="prazo-item prazo-destaque" data-meta="202">
+        <span class="prazo-rotulo">Enviar por dia <span class="prazo-escopo">de 202</span></span>
+        <strong class="prazo-valor" data-campo="por-dia">—</strong>
+        <small class="prazo-detalhe" data-campo="detalhe"></small>
+      </div>
+      <div class="prazo-item">
+        <span class="prazo-rotulo">Enviados / Restantes <span class="prazo-escopo">de 386</span></span>
+        <strong class="prazo-valor" data-meta="386" data-campo="enviados">—</strong>
+      </div>
+      <div class="prazo-item prazo-destaque" data-meta="386">
+        <span class="prazo-rotulo">Enviar por dia <span class="prazo-escopo">de 386</span></span>
+        <strong class="prazo-valor" data-campo="por-dia">—</strong>
+        <small class="prazo-detalhe" data-campo="detalhe"></small>
       </div>
     </section>
 

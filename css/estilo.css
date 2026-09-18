@@ -48,7 +48,7 @@ body {
 
 .prazo {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 14px;
 }
@@ -79,6 +79,20 @@ body {
 
 .prazo-detalhe { font-size: .72rem; opacity: .85; }
 
+/* diz a qual meta (202 ou 386) o quadrado se refere */
+.prazo-escopo {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .22);
+  font-weight: 700;
+  letter-spacing: .2px;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.prazo-destaque .prazo-escopo { background: rgba(122, 90, 4, .14); }
+
 /* o número que importa no dia a dia */
 .prazo-destaque {
   background: var(--fundo-enviado);
@@ -88,8 +102,15 @@ body {
 
 .prazo-destaque .prazo-rotulo { opacity: 1; font-weight: 600; }
 
-.prazo.encerrado .prazo-destaque { background: #ffd7cf; border-color: #ffd7cf; color: var(--perigo); }
-.prazo.concluido .prazo-destaque { background: #b9f5a6; border-color: #b9f5a6; color: var(--esmeralda-escuro); }
+.prazo-destaque.encerrado { background: #ffd7cf; border-color: #ffd7cf; color: var(--perigo); }
+.prazo-destaque.concluido { background: #b9f5a6; border-color: #b9f5a6; color: var(--esmeralda-escuro); }
+
+/* telas médias: 2 colunas, cada meta na sua linha (enviados ao lado do "por dia").
+   Com o painel em 3 linhas o cabeçalho fica alto demais para seguir grudado no topo. */
+@media (max-width: 760px) {
+  .cabecalho { position: static; }
+  .prazo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 .cabecalho-topo {
   display: flex;
@@ -369,9 +390,6 @@ main { padding: 20px max(16px, 3vw) 0; }
 .rodape a { color: var(--esmeralda-escuro); }
 
 @media (max-width: 620px) {
-  /* no celular o cabeçalho ficou alto demais para ficar grudado no topo */
-  .cabecalho { position: static; }
-  .prazo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .acoes { margin-left: 0; width: 100%; }
   .grade { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
   .cartao img { width: 64px; height: 64px; }

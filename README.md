@@ -82,12 +82,15 @@ No topo há um painel de prazo com a **data limite de 20/02/2027**:
 | --- | --- |
 | **Data limite** | 20/02/2027 |
 | **Dias restantes** | dias de calendário entre hoje e a data limite |
-| **Enviados / Restantes** | quantos já têm o check "Enviado" / quantos faltam dos 202 |
-| **Enviar por dia** | restantes ÷ dias restantes, arredondado para cima (com a média exata embaixo) |
+| **Enviados / Restantes** | quantos já têm o check "Enviado" / quantos faltam — **de 202** e **de 386** |
+| **Enviar por dia** | restantes ÷ dias restantes, arredondado para cima (com a média exata embaixo) — **de 202** e **de 386** |
+
+São duas metas lado a lado: **202** (Hoenn Dex) e **386** (Pokédex Nacional até a 3ª geração).
+As duas usam a mesma contagem de enviados, que vem dos checks desta página.
 
 O cálculo se refaz a cada checkbox e vira sozinho à meia-noite se a página ficar aberta. No
 próprio dia 20/02 aparece "Último dia" (e a meta é tudo o que falta); depois dele, "Encerrado".
-Com os 202 enviados, o painel mostra "Meta batida!". Para mudar o prazo, edite `DATA_LIMITE` no
+Quando uma meta chega a zero restantes, o quadrado dela mostra "Meta batida!". Para mudar o prazo, edite `DATA_LIMITE` no
 começo de `js/app.js`.
 
 ## Recursos da tela

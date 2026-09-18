@@ -46,9 +46,6 @@
     prazo: document.querySelector('.prazo'),
     prazoData: document.getElementById('prazo-data'),
     prazoDias: document.getElementById('prazo-dias'),
-    prazoEnviados: document.getElementById('prazo-enviados'),
-    prazoPorDia: document.getElementById('prazo-por-dia'),
-    prazoDetalhe: document.getElementById('prazo-detalhe'),
     barra: document.getElementById('barra'),
     status: document.getElementById('status'),
     busca: document.getElementById('busca'),
@@ -424,35 +421,46 @@
 
   function atualizarPrazo() {
     var dias = diasAteLimite();
-    var restantes = TOTAL - enviados.size;
 
     el.prazoData.textContent = DATA_LIMITE.toLocaleDateString('pt-BR');
-    el.prazoEnviados.textContent = enviados.size + ' / ' + restantes;
-    el.prazo.classList.remove('encerrado', 'concluido');
+    el.prazoDias.textContent = dias < 0 ? 'Encerrado'
+      : dias === 0 ? 'Último dia'
+      : dias + (dias === 1 ? ' dia' : ' dias');
+
+    // Cada meta (202 da Hoenn Dex, 386 da Nacional até a 3ª geração) tem seu par de quadrados.
+    document.querySelectorAll('.prazo-destaque[data-meta]').forEach(function (quadro) {
+      atualizarMeta(Number(quadro.dataset.meta), dias, quadro);
+    });
+  }
+
+  function atualizarMeta(total, dias, quadroPorDia) {
+    var restantes = Math.max(total - enviados.size, 0);
+    var porDia = quadroPorDia.querySelector('[data-campo="por-dia"]');
+    var detalhe = quadroPorDia.querySelector('[data-campo="detalhe"]');
+
+    el.prazo.querySelector('[data-meta="' + total + '"][data-campo="enviados"]')
+      .textContent = enviados.size + ' / ' + restantes;
+    quadroPorDia.classList.remove('encerrado', 'concluido');
 
     if (restantes === 0) {
-      el.prazo.classList.add('concluido');
-      el.prazoDias.textContent = dias >= 0 ? dias + (dias === 1 ? ' dia' : ' dias') : 'Encerrado';
-      el.prazoPorDia.textContent = 'Meta batida!';
-      el.prazoDetalhe.textContent = 'todas as ' + TOTAL + ' enviadas';
+      quadroPorDia.classList.add('concluido');
+      porDia.textContent = 'Meta batida!';
+      detalhe.textContent = 'todas as ' + total + ' enviadas';
       return;
     }
 
     if (dias < 0) {
-      el.prazo.classList.add('encerrado');
-      el.prazoDias.textContent = 'Encerrado';
-      el.prazoPorDia.textContent = '—';
-      el.prazoDetalhe.textContent = 'prazo vencido com ' + restantes + ' por enviar';
+      quadroPorDia.classList.add('encerrado');
+      porDia.textContent = '—';
+      detalhe.textContent = 'prazo vencido com ' + restantes + ' por enviar';
       return;
     }
 
     // No próprio dia limite ainda sobra hoje: divide por 1 em vez de 0.
-    var diasParaDividir = Math.max(dias, 1);
-    var mediaExata = restantes / diasParaDividir;
+    var mediaExata = restantes / Math.max(dias, 1);
 
-    el.prazoDias.textContent = dias === 0 ? 'Último dia' : dias + (dias === 1 ? ' dia' : ' dias');
-    el.prazoPorDia.textContent = Math.ceil(mediaExata);
-    el.prazoDetalhe.textContent = 'média exata: ' + mediaExata.toLocaleString('pt-BR', {
+    porDia.textContent = Math.ceil(mediaExata);
+    detalhe.textContent = 'média exata: ' + mediaExata.toLocaleString('pt-BR', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }) + ' por dia';
