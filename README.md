@@ -16,12 +16,18 @@ O checkbox **"Enviado" só aparece depois que "Capturado" está marcado** — e 
 
 Feito só com **HTML, CSS e JavaScript** — sem frameworks, sem build, sem dependências.
 
+**▶ Acesse online:** https://victoramccomp.github.io/pokemon-rse-dex-to-palpark/
+
 ## Como abrir
 
-**Opção 1 — servidor local (recomendado):** dê dois cliques em `iniciar-servidor.bat`.
-Ele sobe um servidor em `http://localhost:5178` e abre o navegador. Precisa do Python instalado.
+**Opção 1 — online:** pelo link acima (GitHub Pages). As marcações ficam salvas no navegador
+daquele dispositivo; para tê-las em arquivo, use "Conectar arquivo JSON" (Chrome/Edge) ou os
+botões "Baixar JSON" / "Importar JSON".
 
-**Opção 2 — direto no arquivo:** dê dois cliques em `index.html`. Funciona, mas o navegador
+**Opção 2 — servidor local:** dê dois cliques em `iniciar-servidor.bat`. Ele sobe um servidor em
+`http://localhost:5178` e abre o navegador. Precisa do Python instalado.
+
+**Opção 3 — direto no arquivo:** dê dois cliques em `index.html`. Funciona, mas o navegador
 bloqueia a leitura automática de `dados/capturas.json` no modo `file://` (as marcações ficam
 salvas no navegador normalmente).
 
@@ -37,7 +43,8 @@ disco sozinha (por segurança do navegador), existem três camadas:
 | **Baixar / Importar JSON** | Manual, quando você quiser | qualquer navegador |
 
 **Para ligar a gravação automática no arquivo:** clique em **"Conectar arquivo JSON"** e escolha
-`dados/capturas.json` na pasta do projeto. A partir daí, todo checkbox marcado ou desmarcado
+`dados/capturas.json` na pasta do projeto. (Pelo site publicado isso também funciona: aponte
+para qualquer `.json` do seu computador — o site não grava nada no GitHub.) A partir daí, todo checkbox marcado ou desmarcado
 regrava o arquivo no disco na hora, e o rodapé do cabeçalho mostra a hora do último salvamento.
 Essa autorização é pedida uma vez por navegador; ao reabrir a página, se o Chrome pedir de novo,
 basta clicar em "Reconectar arquivo JSON".
