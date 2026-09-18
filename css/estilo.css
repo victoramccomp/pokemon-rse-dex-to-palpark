@@ -1,0 +1,328 @@
+/* ==========================================================================
+   EmeraldDexCheck — estilo
+   ========================================================================== */
+
+:root {
+  --fundo: #eef2f0;
+  --fundo-cartao: #ffffff;
+  --fundo-capturado: #d5f5cd;   /* verde claro pedido para os capturados */
+  --borda-capturado: #58b947;
+  --fundo-enviado: #fdefb4;     /* amarelo, 2ª etapa: sobrescreve o verde */
+  --borda-enviado: #d9a919;
+  --texto-enviado: #7a5a04;
+  --borda: #d7dedb;
+  --texto: #1d2b26;
+  --texto-suave: #63756e;
+  --esmeralda: #0f8a5f;
+  --esmeralda-escuro: #0a6647;
+  --perigo: #b4341f;
+  --sombra: 0 1px 2px rgba(20, 40, 33, .06), 0 4px 12px rgba(20, 40, 33, .06);
+  --raio: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 0 48px;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* ---------- Cabeçalho ---------------------------------------------------- */
+
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 16px max(16px, 3vw) 12px;
+  background: linear-gradient(135deg, var(--esmeralda-escuro), var(--esmeralda));
+  color: #fff;
+  box-shadow: 0 2px 14px rgba(10, 60, 44, .25);
+}
+
+.cabecalho-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.cabecalho h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: .3px;
+}
+
+.subtitulo {
+  margin: 2px 0 0;
+  font-size: .85rem;
+  opacity: .85;
+}
+
+.painel-progresso {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  gap: 0 10px;
+  min-width: 190px;
+}
+
+.painel-progresso strong { font-size: 1.15rem; }
+.painel-progresso span { font-size: .85rem; opacity: .85; justify-self: end; }
+
+.contador-enviados {
+  grid-column: 1 / -1;
+  font-size: .8rem;
+  opacity: .9;
+  min-height: 1.1em;
+}
+
+.contador-enviados::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 5px;
+  border-radius: 3px;
+  background: var(--fundo-enviado);
+  vertical-align: baseline;
+}
+
+.contador-enviados:empty { display: none; }
+
+.barra {
+  grid-column: 1 / -1;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .25);
+  overflow: hidden;
+}
+
+.barra-preenchida {
+  height: 100%;
+  width: 0;
+  border-radius: 99px;
+  background: #b9f5a6;
+  transition: width .25s ease;
+}
+
+/* ---------- Barra de ferramentas ----------------------------------------- */
+
+.barra-ferramentas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.campo-busca {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  font: inherit;
+}
+
+.campo-busca::placeholder { color: rgba(255, 255, 255, .7); }
+.campo-busca:focus {
+  outline: 2px solid #b9f5a6;
+  outline-offset: 1px;
+  background: rgba(255, 255, 255, .22);
+}
+
+.filtros { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.filtro,
+.botao {
+  padding: 7px 13px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font: inherit;
+  font-size: .85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s ease, transform .1s ease;
+}
+
+.filtro:hover, .botao:hover { background: rgba(255, 255, 255, .26); }
+.filtro:active, .botao:active { transform: translateY(1px); }
+
+.filtro.ativo {
+  background: #fff;
+  border-color: #fff;
+  color: var(--esmeralda-escuro);
+  font-weight: 600;
+}
+
+.acoes { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+
+.botao-principal { background: #b9f5a6; border-color: #b9f5a6; color: var(--esmeralda-escuro); font-weight: 600; }
+.botao-principal:hover { background: #a6ee8f; }
+.botao-principal.conectado { background: #fff; border-color: #fff; }
+.botao-perigo:hover { background: var(--perigo); border-color: var(--perigo); }
+
+.status {
+  margin: 10px 0 0;
+  font-size: .8rem;
+  opacity: .9;
+  min-height: 1.2em;
+}
+
+.status.erro { color: #ffd7cf; font-weight: 600; opacity: 1; }
+
+/* ---------- Grade de criaturas ------------------------------------------- */
+
+main { padding: 20px max(16px, 3vw) 0; }
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.cartao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 8px 8px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--fundo-cartao);
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .1s ease;
+  user-select: none;
+}
+
+.cartao[hidden] { display: none; }   /* precisa vir depois do display:flex acima */
+.cartao:hover { transform: translateY(-2px); border-color: #b6c6c0; }
+.cartao:focus-within { outline: 2px solid var(--esmeralda); outline-offset: 2px; }
+
+/* fundo verde claro quando capturado */
+.cartao.capturado {
+  background: var(--fundo-capturado);
+  border-color: var(--borda-capturado);
+}
+
+/* amarelo da 2ª etapa — vem depois do verde justamente para sobrescrevê-lo */
+.cartao.enviado {
+  background: var(--fundo-enviado);
+  border-color: var(--borda-enviado);
+}
+
+.numero {
+  align-self: flex-start;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  letter-spacing: .5px;
+}
+
+.cartao img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin: 2px 0;
+}
+
+.nome {
+  font-weight: 600;
+  font-size: .95rem;
+  text-align: center;
+}
+
+.tipos { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin: 5px 0 8px; }
+
+.tipo {
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+/* checkbox embaixo do elemento */
+.marcador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding-top: 7px;
+  border-top: 1px dashed var(--borda);
+  font-size: .78rem;
+  color: var(--texto-suave);
+}
+
+.cartao.capturado .marcador { border-top-color: rgba(88, 185, 71, .5); color: var(--esmeralda-escuro); font-weight: 600; }
+
+.marcador input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--esmeralda);
+  cursor: pointer;
+}
+
+/* 2ª etapa: o "Enviado" só existe depois do "Capturado" */
+.marcador-enviado { display: none; }
+.cartao.capturado .marcador-enviado { display: flex; }
+
+.cartao.capturado .marcador-enviado { border-top-style: solid; border-top-color: rgba(88, 185, 71, .35); }
+.cartao.enviado .marcador { border-top-color: rgba(217, 169, 25, .45); color: var(--texto-enviado); }
+.cartao.enviado .marcador-enviado { border-top-color: rgba(217, 169, 25, .45); font-weight: 600; }
+.marcador-enviado input { accent-color: #d9a919; }
+
+.vazio { text-align: center; color: var(--texto-suave); padding: 40px 0; }
+
+/* ---------- Cores por tipo ------------------------------------------------ */
+
+.t-normal   { background: #9199a1; }
+.t-fire     { background: #ff9d55; }
+.t-water    { background: #4d90d5; }
+.t-grass    { background: #63bc5a; }
+.t-electric { background: #f4d23c; color: #4a3b00; }
+.t-ice      { background: #74cec0; }
+.t-fighting { background: #ce4069; }
+.t-poison   { background: #ab6ac8; }
+.t-ground   { background: #d97845; }
+.t-flying   { background: #8fa8dd; }
+.t-psychic  { background: #fa7179; }
+.t-bug      { background: #90c12c; }
+.t-rock     { background: #c5b78c; color: #3a3320; }
+.t-ghost    { background: #5269ad; }
+.t-dragon   { background: #0b6dc3; }
+.t-dark     { background: #5a5465; }
+.t-steel    { background: #5a8ea2; }
+
+/* ---------- Rodapé -------------------------------------------------------- */
+
+.rodape {
+  margin-top: 32px;
+  padding: 0 max(16px, 3vw);
+  font-size: .75rem;
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+.rodape a { color: var(--esmeralda-escuro); }
+
+@media (max-width: 620px) {
+  .acoes { margin-left: 0; width: 100%; }
+  .grade { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
+  .cartao img { width: 64px; height: 64px; }
+}

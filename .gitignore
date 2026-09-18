@@ -1,0 +1,6 @@
+# Lixo do Windows
+Thumbs.db
+desktop.ini
+
+# Configuracao local de ferramentas
+.claude/

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EmeraldDexCheck — Hoenn Pokédex (Ruby / Sapphire / Emerald)</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="cabecalho-topo">
+      <div>
+        <h1>EmeraldDexCheck</h1>
+        <p class="subtitulo">Hoenn Pokédex — Pokémon Ruby / Sapphire / Emerald · 202 criaturas</p>
+      </div>
+
+      <div class="painel-progresso">
+        <strong id="contador">0 / 202</strong>
+        <span id="porcentagem">0%</span>
+        <span class="contador-enviados" id="contador-enviados"></span>
+        <div class="barra"><div class="barra-preenchida" id="barra"></div></div>
+      </div>
+    </div>
+
+    <div class="barra-ferramentas">
+      <input type="search" id="busca" class="campo-busca" placeholder="Buscar por nome ou número…" autocomplete="off">
+
+      <div class="filtros" role="group" aria-label="Filtrar lista">
+        <button type="button" class="filtro ativo" data-filtro="todos">Todos</button>
+        <button type="button" class="filtro" data-filtro="capturados">Capturados</button>
+        <button type="button" class="filtro" data-filtro="enviados">Enviados</button>
+        <button type="button" class="filtro" data-filtro="a-enviar">A enviar</button>
+        <button type="button" class="filtro" data-filtro="faltando">Faltando</button>
+      </div>
+
+      <div class="acoes">
+        <button type="button" id="btn-conectar" class="botao botao-principal">Conectar arquivo JSON</button>
+        <button type="button" id="btn-baixar" class="botao">Baixar JSON</button>
+        <button type="button" id="btn-importar" class="botao">Importar JSON</button>
+        <button type="button" id="btn-limpar" class="botao botao-perigo">Limpar tudo</button>
+        <input type="file" id="arquivo-importar" accept="application/json,.json" hidden>
+      </div>
+    </div>
+
+    <p class="status" id="status" role="status">Carregando…</p>
+  </header>
+
+  <main>
+    <div class="grade" id="grade"></div>
+    <p class="vazio" id="vazio" hidden>Nenhuma criatura encontrada com esse filtro.</p>
+  </main>
+
+  <footer class="rodape">
+    Dados e sprites: <a href="https://pokemondb.net/pokedex/game/ruby-sapphire-emerald" target="_blank" rel="noopener">pokemondb.net</a>
+    · Pokémon © Nintendo / Game Freak / The Pokémon Company. Projeto pessoal, sem fins comerciais.
+  </footer>
+
+  <script src="js/pokemons.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
